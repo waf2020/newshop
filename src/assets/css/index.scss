@@ -1,0 +1,26 @@
+
+
+@function px($size){
+    @return $size/16+rem
+}
+$backgoundcolor:#ff5777;
+
+$fontcolor:#666;
+
+.clear-fix {
+    zoom: 1;
+    &::after {
+      clear: both;
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      visibility: hidden;
+    }
+  }
+
+  :export {
+    fontcolor: $fontcolor;
+    backgoundcolor:$backgoundcolor;
+  }
+  

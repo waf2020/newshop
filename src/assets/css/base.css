@@ -1,0 +1,10 @@
+@import './normalize.css';
+
+:root {
+    --font-size:14px;
+    --color-hight-text:#ff5777;
+    --color-background:#fff;
+    --color-tint:#ff8198;
+    --color-text:#666;
+
+}
