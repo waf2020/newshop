@@ -18,7 +18,7 @@ export default {
        display: flex
    }
    .nav >.left,.nav >.right{
-     width: 22%;
+     width: 25%;
     
    }
 

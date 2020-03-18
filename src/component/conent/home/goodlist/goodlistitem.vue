@@ -1,6 +1,6 @@
 <template>
-  <div class="item">
-    <img :src="goodsObj.show.img" class="item-img" />
+  <div class="item" @click="godetaile">
+    <img v-lazy="showimg" class="item-img" @load="imgload"/>
     <div class="title">{{goodsObj.title}}</div>
     <div class="item-bd">
       <span class="price">{{goodsObj.price}}</span>
@@ -16,7 +16,24 @@ export default {
     goodsObj: {
       type: Object
     }
-  }
+  },
+  computed:{
+    showimg(){
+      
+      return this.goodsObj.image || this.goodsObj.show.img
+    }
+  },
+  methods: {
+    imgload(){
+      //console.log('img加载完');
+      // this.$store.commit('changeImgstate',true);
+      this.$bus.$emit('itemimageload')
+    },
+    godetaile(){
+ 
+      this.$router.push('/detail/'+this.goodsObj.iid);
+    }
+  },
 };
 </script>
 

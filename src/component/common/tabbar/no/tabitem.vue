@@ -1,7 +1,7 @@
 <template>
     <div class="tab-item" @click="getpath" >
         <div v-if="isActive!==true">
-            <slot name="imgsrc"></slot>
+            <slot name="imgsrc" :style="isactivestyle"></slot>
             </div>
             <div v-else><slot name="active-imgsrc"></slot></div>
             

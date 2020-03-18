@@ -1,6 +1,6 @@
 <template>
   <div class="goodlist">
-    <goodlistitem v-for="item in goods" :key="item.iid" :goodsObj="item" class="goodlist-item"></goodlistitem>
+    <goodlistitem v-for="item in goods" :key="item.title" :goodsObj="item" class="goodlist-item"></goodlistitem>
   </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.goods);
+    //console.log('goodlist',this.goods);
   },
   components: {
     goodlistitem
@@ -29,6 +29,7 @@ export default {
   flex-wrap: wrap;
   width: 100%;
   justify-content: space-around;
+  background-color: #fff;
 }
 .goodlist-item {
   width: 48%;

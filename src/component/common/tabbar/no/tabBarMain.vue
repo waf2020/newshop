@@ -4,8 +4,9 @@
     <!-- path：路由跳转的路径
     activecolor:处于活跃时的字体颜色-->
     <tabitem class="tabitem" path="/home" activecolor="pink">
-      <img slot="imgsrc" src="@/assets/img/tabbar/home.svg" />
-      <img slot="active-imgsrc" src="@/assets/img/tabbar/home_active.svg" />
+      <!-- <img slot="imgsrc" src="@/assets/img/tabbar/home.svg" />
+      <img slot="active-imgsrc" src="@/assets/img/tabbar/home_active.svg" /> -->
+      <span class="iconfont icon-wode-1" slot="active-imgsrc"></span>
       <div slot="title">首页</div>
     </tabitem>
 
@@ -27,7 +28,8 @@
       <div slot="title">购物车</div>
     </tabitem>
   </tabBar>
-  <router-view></router-view>
+  <keep-alive><router-view></router-view></keep-alive>
+  
  </div> 
 </template>
 <script>

@@ -4,9 +4,22 @@
     <navbar class="nav">
       <div slot="center">小可爱的购物街</div>
     </navbar>
-    <srcoll ref="srcoll" @getpositiony="mygetpositiony" :isprobeType='3'>
+     <tabControl :titles="['流行','新款','精选']"
+     @checktab="getgoodstype"
+      v-show="tabControlisshow"
+      class="tabcontrolbottoms"
+      ref="tabtoptrol"
+      ></tabControl>
+    <srcoll
+      ref="srcoll"
+      @getpositiony="mygetpositiony"
+      :isprobeType="3"
+      :pullUpLoad="true"
+      @pullup="mypullup"
+    >
+   
       <!-- 轮播图 -->
-      <myswiper :swiperOption="swiperOption" :bannerlist="bannerlist.list" class="myswiper"></myswiper>
+      <myswiper  :bannerlist="bannerlist.list" class="myhomeswiper" @swiperimgload="monitorswiperimg" :includeObj="true"></myswiper>
       <!-- 每日推荐 -->
       <recommend :recommendlist="recommendlist.list" class="recommend"></recommend>
       <!-- 本周流行 -->
@@ -14,9 +27,10 @@
         <img src="@/assets/img/home/recommend_bg.jpg" />
       </div>
       <!-- tabControl选项卡 -->
-      <tabControl :titles="['流行','新款','精选']" @checktab="getgoodstype"></tabControl>
+      <tabControl :titles="['流行','新款','精选']" 
+      @checktab="getgoodstype" ref="tabcontrolbottom" ></tabControl>
       <!-- 商品列表 -->
-
+{{goodstype}}
       <goodlist :goods="goods[goodstype].list" class="goodlist"></goodlist>
     </srcoll>
     <!-- 回到顶部按钮 -->
@@ -61,7 +75,10 @@ export default {
         sell: { page: 0, list: [] }
       },
       goodstype: "pop",
-      positiony: 0
+      positiony: 0,
+      imgload: "",
+      tabControlisshow:false,     //第二个tabcontrol是否显示
+      offsetTop:0,//tabcontrol距离顶部父元素的高度
     };
   },
   created() {
@@ -70,8 +87,30 @@ export default {
     this.getGoodsList("new");
     this.getGoodsList("sell");
   },
+  mounted() {
+    if (this.$refs.srcoll) {
+      const refresh = this.debanuce(this.$refs.srcoll.getrefresh, 500);
+      //监听图片是否加载完，加载完刷新，重新计算高度
+      this.$bus.$on("itemimageload", () => {
+        refresh();
+      });
+    }
+  },
 
   methods: {
+    //封装防抖函数
+    debanuce(func, deplay) {
+      let timer = null;
+      return function() {
+        if (timer) {
+          clearTimeout(timer);
+       
+        }
+        timer = setTimeout(() => {
+          func.apply(this);
+        }, deplay);
+      };
+    },
     //获取首页轮播图和推荐数据
     getMultdata() {
       getMultidata().then(res => {
@@ -97,35 +136,57 @@ export default {
     //得到当前的点击的type
     getgoodstype(value) {
       this.gettype(value);
-      console.log(this.goodstype);
+     
+      
     },
 
-    //根据文字获取其type
+    //根据index获取其type
     gettype(val) {
+      console.log(val)
       switch (val) {
-        case "流行":
+        case 0:
           this.goodstype = "pop";
           break;
-        case "新款":
+        case 1:
           this.goodstype = "new";
           break;
-        case "精选":
+        case 2:
           this.goodstype = "sell";
           break;
       }
+ 
+      this.$refs.tabtoptrol.currectIndex=val;
+      this.$refs.tabcontrolbottom.currectIndex=val;
     },
 
     //回到顶部
     gettotop() {
       console.log(this.$refs.srcoll.message);
-      this.$refs.srcoll.gettotop(0, 0, 1000);
+      this.$refs.srcoll && this.$refs.srcoll.gettotop(0, 0, 500);
       //console.log(this.$refs.srcoll);
     },
     //监听滚动的位置
     mygetpositiony(val) {
-    
+      //console.log(val);
       this.positiony = Math.abs(val);
-     // console.log(this.positiony>660);
+     
+      //滚动的y值大于顶部的高度 就显示
+      if(this.offsetTop<this.positiony){
+        this.tabControlisshow=true;
+      }else{
+         this.tabControlisshow=false;
+      }
+    },
+    //监听上拉加载更多
+    mypullup() {
+      console.log("home上拉加载更多");
+      this.getGoodsList(this.goodstype);
+    },
+    //监听轮播图加载完成
+    monitorswiperimg(){
+     
+          this.offsetTop=this.$refs.tabcontrolbottom.$el.offsetTop ;
+         
     }
   },
 
@@ -144,16 +205,24 @@ export default {
 #home {
   position: relative;
   background-color: #fff;
+
+  height: 100vh;
 }
 .nav {
   color: #fff;
   font-size: var(font-size);
   text-align: center;
   background-color: var(--color-tint);
+z-index: 2;
+  position: fixed;
+  top:0;
+  right: 0;
+  left: 0;
 }
-/* .myswiper{
-    height: 300px;
-} */
+.myhomeswiper{
+    height: 200px;
+   width: 100%;
+}
 .week-pop {
   width: 100%;
 }
@@ -161,7 +230,7 @@ export default {
   width: 100%;
 }
 .goodlist {
-  margin-top: 16px;
+  margin-top: 10px;
 }
 .recommend {
   background-color: #fff;
@@ -183,5 +252,13 @@ export default {
 .totop img {
   height: 55px;
   width: 55px;
+}
+.tabcontrolbottoms {
+  position: fixed;
+ top: 44px;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background-color: #fff;
 }
 </style>

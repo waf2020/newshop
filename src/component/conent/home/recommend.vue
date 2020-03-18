@@ -16,30 +16,52 @@ export default {
              type:Array
          }
     }
+
 }
 </script>
 
 <style lang="scss" scoped>
- .recommend{
-     display: flex;
-     text-align: center;
-     
- }
-
- .recommend a {
-     width: 85px;
-     height: 85px;
-     flex: 1;
-     color: var(--color-text);
-     font-size: var(--font-size);
-     padding: 7px 5px;
+.recommend {
+    display: flex;
+  //  margin-top: 7px;
     
- }
- .recommend img {
-     width: 100%;
-     height: 100%;
- }
- .recommend .title {
-  margin-top: 5px;
- }
+}
+.recommend a {
+ padding: 7px 3px;
+    height: 100%;
+    flex: 1;color: var(--color-text);
+   font-size: var(--font-size);
+
+}
+.recommend a img {
+    width: 100%;
+    height: 85%;
+    
+}
+
+.recommend .title{
+    text-align: center;
+}
+//  .recommend{
+//      display: flex;
+//      text-align: center;
+     
+//  }
+
+//  .recommend a {
+//      width: 85px;
+//      height: 85px;
+//      flex: 1;
+//      color: var(--color-text);
+//      font-size: var(--font-size);
+//      padding: 7px 5px;
+    
+//  }
+//  .recommend img {
+//      width: 100%;
+//      height: 100%;
+//  }
+//  .recommend .title {
+//   margin-top: -15px;
+//  }
 </style>

@@ -18,11 +18,19 @@ module.exports = {
           prependData: `
             @import "@/assets/css/index.scss";
           `
+        },
+        postcss: {
+          plugins: [
+            require('postcss-px2rem')({
+              remUnit: 18.75
+            })
+          ]
         }
+
       }
     },
     devServer: {
-      host: '192.168.31.165',
+      // host: '192.168.31.165',
       port: 8080,
     },
 

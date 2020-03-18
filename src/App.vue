@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <tabBarMain></tabBarMain>
-    
+    <tabBarMainIcon></tabBarMainIcon>
+     <router-view></router-view>
   </div>
 </template>
 
@@ -10,17 +10,19 @@
 </style>
 
 <script>
-import tabBarMain from '@/component/common/tabbar/tabBarMain.vue'
+import tabBarMainIcon from '@/component/common/tabbar/tabBarMainIcon.vue'
 
 
 
 export default {
     components:{
-     tabBarMain
+     tabBarMainIcon
     }
 }
 </script>
 
 <style lang="scss" scoped>
- 
+  #app{
+    // background-color: #fff;
+  }
 </style>
